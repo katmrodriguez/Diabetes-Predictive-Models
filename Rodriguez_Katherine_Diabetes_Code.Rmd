@@ -1,0 +1,181 @@
+---
+title: "Diabetes in Pima Indians"
+author: "Katherine Rodriguez"
+date: "2026-07-10"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+\newpage
+
+# Summary
+This script uses the Pima Indians diabetes dataset to build predictive models 
+for diabetes status. After cleaning impossible values 
+(e.g., 0 for glucose, blood pressure, BMI) and recoding the outcome,
+we fit a logistic regression and a random forest classifier using tidymodels. 
+We compare performance on a train/test split using accuracy and ROC AUC, 
+visualize the ROC curve, and examine variable importance to understand which
+health metrics are most strongly associated with diabetes.
+
+# Load and prepare data
+
+## Load libraries
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(tidymodels)
+```
+
+## Load the data
+```{r}
+diabetes <- read_csv("data/diabetes.csv")
+```
+
+## Lets take a look at the data
+```{r}
+head(diabetes)
+```
+
+# Tidy the data
+
+## Replace values of zeros with NAs for BMI, glucose, and blood pressure recode outcome
+```{r}
+diabetes <- diabetes |>
+  mutate_at(c('bmi', 'glucose', 'blood_pressure'), ~na_if(., 0))|>
+  mutate_if(is.character, as.factor) |>
+  mutate(
+    outcome = recode_factor(outcome, "0" = "No diabetes", "1" = "Diabetes")
+  )
+```
+
+# Train and test split
+```{r}
+set.seed(630)
+split_diab <- initial_split(diabetes, prop = 0.75, strata = outcome)
+train_diab <- training(split_diab)
+test_diab <- testing(split_diab)
+```
+
+# Recipe: impute, dummy, and normalize
+```{r}
+rec_diab <- recipe(outcome ~ pregnancies + glucose + blood_pressure + bmi + age + insulin,
+                   data = train_diab) |>
+  step_impute_median(all_numeric_predictors()) |>
+  step_impute_mode(all_nominal_predictors()) |>
+  step_dummy(all_nominal_predictors()) |>
+  step_zv(all_predictors()) |>
+  step_normalize(all_numeric_predictors())
+```
+
+# Model Building
+
+## Logistic Regression Model
+```{r}
+logit_mod <- logistic_reg(mode = "classification") |>
+  set_engine("glm")
+
+logit_wf <- workflow() |>
+  add_recipe(rec_diab) |>
+  add_model(logit_mod)
+
+logit_fit <- logit_wf |>
+  fit(data = train_diab)
+```
+
+## Random Forest Model
+```{r}
+rf_mod <- rand_forest(mode = "classification", trees = 500) |>
+  set_engine("ranger", importance = "permutation")
+
+rf_wf <- workflow() |>
+  add_recipe(rec_diab) |>
+  add_model(rf_mod)
+
+rf_fit <- rf_wf |>
+  fit(data = train_diab)
+```
+
+# Predictions on test set
+```{r}
+logit_pred <- predict(logit_fit, new_data = test_diab, type = "prob")|>
+  bind_cols(predict(logit_fit, new_data = test_diab, type = "class")) |>
+  bind_cols(test_diab |> select(outcome)) |>
+  rename(.pred_class = .pred_class)
+
+rf_pred <- predict(rf_fit, new_data = test_diab, type = "prob") |>
+  bind_cols(predict(rf_fit, new_data = test_diab, type = "class")) |>
+  bind_cols(test_diab |> select(outcome)) |>
+  rename(.pred_class = .pred_class)
+```
+
+# Metrics: Accuracy and ROC AUC
+```{r}
+metrics_logit <- tibble(
+  model = "Logistic regression",
+  accuracy = accuracy(logit_pred, truth = outcome, estimate = .pred_class)$.estimate,
+  roc_auc = roc_auc(logit_pred, truth = outcome, .pred_Diabetes, event_level = "second")$.estimate
+  
+)
+
+metrics_rf <- tibble(
+  model = "Random forest",
+  accuracy = accuracy(rf_pred, truth = outcome, estimate = .pred_class)$.estimate,
+  roc_auc = roc_auc(rf_pred, truth = outcome, .pred_Diabetes, event_level = "second")$.estimate
+  
+)
+
+bind_rows(metrics_logit, metrics_rf)  
+
+```
+
+**Discussion**
+
+Both models perform well, with exact accuracy of 0.832.
+ROC AUC values are slightly different with logistic regression at 0.883,
+and random forest at 0.874
+
+# ROC Curve for random forest
+```{r}
+rf_pred |>
+  roc_curve(truth = outcome, .pred_Diabetes, event_level = "second") |>
+  autoplot() +
+  labs(
+    title = "Random Forest ROC Curve (Diabetes)",
+    x = "1-Specificity",
+    y = "Sensitivity"
+  )
+  
+#Variable importance (random forest)
+rf_fitb <- extract_fit_parsnip(rf_fit)$fit
+imp <- tibble(
+  variable = names(rf_fitb$variable.importance),
+  importance = as.numeric(rf_fitb$variable.importance)
+) |>
+  arrange(desc(importance))
+```
+
+# Visualization
+```{r}
+ggplot(imp, aes(x = reorder(variable, importance), y = importance)) +
+  geom_col(fill = "steelblue") +
+  coord_flip() +
+  labs(
+    title = "Random Forest Variable Importance",
+    x = NULL,
+    y = "Importance"
+  )
+```  
+  
+**Discussion**
+
+As the metrics revealed, both the logistic regression and random forest
+models performed well with accuracy both 0.832, while logistic regression
+had a slightly higher ROC AUC value. The variable importance chart reveals 
+glucose is the strongest predictor of diabetes, consistent with clinical 
+explanations of diabetes and what is likely to cause a higher diabetes risk.
