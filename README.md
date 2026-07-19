@@ -15,9 +15,11 @@ Diabetes-Predictive-Models/
 ├── results/
 │   ├── roc_curve.png
 │   └── variable_importance.png
-├── Rodriguez_Katherine_Diabetes_Code.Rmd
+├── .gitignore
+├── Diabetes-Predictive-Models.Rproj
 ├── README.md
-└── .gitignore
+├── Rodriguez_Katherine_Diabetes_Code.Rmd
+└── Rodriguez_Katherine_Diabetes_Code.pdf
 ```
 ---
 ## How to Run the Code
