@@ -44,8 +44,6 @@ head(diabetes)
 
 # Tidy the data
 
-#test change git change
-
 ## Replace values of zeros with NAs for BMI, glucose, and blood pressure recode outcome
 ```{r}
 diabetes <- diabetes |>
