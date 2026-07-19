@@ -140,7 +140,7 @@ Both models perform well, with exact accuracy of 0.832.
 ROC AUC values are slightly different with logistic regression at 0.883,
 and random forest at 0.874
 
-# ROC Curve for random forest
+# ROC Curve and Variable Importance for Random Forest
 ```{r}
 roc_plot <- rf_pred |>
 roc_curve(truth = outcome, .pred_Diabetes, event_level = "second") |>
