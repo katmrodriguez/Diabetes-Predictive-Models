@@ -77,6 +77,7 @@ Rodriguez_Katherine_Diabetes_Code.R
 
 ### Variable Importance (Random Forest)
 ![Variable Importance](variable_importance.png)
+
 ---
 ## Summary
 Both models performed well, with the random forest achieving slightly higher accuracy and ROC AUC. Variable importance results align with clinical expectations, highlighting glucose as the most influential predictor of diabetes risk.  
