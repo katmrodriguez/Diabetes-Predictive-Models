@@ -25,6 +25,7 @@ Diabetes-Predictive-Models/
 1. Install required packages:
    ```r
    install.packages(c("tidyverse", "tidymodels"))
+   ```
 2. Open the R script:
 Rodriguez_Katherine_Diabetes_Code.R
 3. Run the script from top to bottom. It will:
@@ -42,7 +43,7 @@ Rodriguez_Katherine_Diabetes_Code.R
 - Replaced impossible values (0 for glucose, blood pressure, BMI) with NA
 - Recoded the outcome variable into:
   - "No diabetes"
-  - "Diabetes
+  - "Diabetes"
 ---
 ## Modeling Workflow
 - Train/test split (75/25) stratified by outcome)
@@ -77,7 +78,6 @@ Rodriguez_Katherine_Diabetes_Code.R
 
 ### Variable Importance (Random Forest)
 ![Variable Importance](results/variable_importance.png)
-
 ---
 ## Summary
 Both models performed well, with the random forest achieving slightly higher accuracy and ROC AUC. Variable importance results align with clinical expectations, highlighting glucose as the most influential predictor of diabetes risk.  
