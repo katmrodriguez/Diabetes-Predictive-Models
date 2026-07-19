@@ -1,5 +1,5 @@
 # Diabetes-Predictive-Models
- This project builds predictive models for diabetes status using the Pima Indians diabetes dataset. The workflow includes data cleaning (removing impossible values), outcome recoding, and model development using tidymodels. Logistic regression and random forest models are evaluated with accuracy and ROC AUC, and ROC curves are visualized to compare performance. Variable importance is analyzed to highlight which health metrics contribute most to diabetes prediction.
+This project builds predictive models for diabetes status using the Pima Indians diabetes dataset. The workflow includes data cleaning (removing impossible values), outcome recoding, and model development using tidymodels. Logistic regression and random forest models are evaluated with accuracy and ROC AUC, and ROC curves are visualized to compare performance. Variable importance is analyzed to highlight which health metrics contribute most to diabetes prediction.
 ---
 ## Objectives
 - Build and evaluate a predictive model for diabetes classification
