@@ -153,7 +153,7 @@ roc_curve(truth = outcome, .pred_Diabetes, event_level = "second") |>
 roc_plot
 
 #Save ROC curve
-ggsave("roc_curve.png", roc_plot, width = 6, height = 4)
+ggsave("results/roc_curve.png", roc_plot, width = 6, height = 4)
 
 #Variable importance (random forest)
 rf_fitb <- extract_fit_parsnip(rf_fit)$fit
@@ -181,7 +181,7 @@ varimp_plot <- ggplot(imp, aes(x = reorder(variable, importance), y = importance
 varimp_plot
 
 #Save variable importance chart
-ggsave("variable_importance.png", varimp_plot, width = 6, height = 4)
+ggsave("results/variable_importance.png", varimp_plot, width = 6, height = 4)
 ```  
   
 **Discussion**
