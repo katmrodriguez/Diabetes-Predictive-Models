@@ -4,10 +4,13 @@ This project builds predictive models for diabetes status using the Pima Indians
 ---
 
 ## Project Structure
-├── Rodriguez_Katherine_Diabetes_Code.R
-├── diabetes.csv
-├── roc_curve.png
-├── variable_importance.png
+├── data/
+│   └── diabetes.csv
+├── R/
+│   └── Rodriguez_Katherine_Diabetes_Code.R
+├── results/
+│   ├── roc_curve.png
+│   └── variable_importance.png
 ├── README.md
 └── .gitignore
 
@@ -63,6 +66,12 @@ Rodriguez_Katherine_Diabetes_Code.R
 - Variable importance plot showing:
   - Glucose as the strongest predictor
   - Age, BMI, and insulin are also contributing
+
+### ROC Curve (Random Forest)
+ ![ROC Curve](roc_curve.png)
+
+### Variable Importance (Random Forest)
+![Variable Importance](variable_importance.png)
 
 ## Summary
 Both models performed well, with the random forest achieving slightly higher accuracy and ROC AUC. Variable importance results align with clinical expectations, highlighting glucose as the most influential predictor of diabetes risk.  
