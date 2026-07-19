@@ -10,13 +10,12 @@ This project builds predictive models for diabetes status using the Pima Indians
 ## Project Structure
 ```text
 Diabetes-Predictive-Models/
-├── R/
-│   └── Rodriguez_Katherine_Diabetes_Code.R
 ├── data/
 │   └── diabetes.csv
 ├── results/
 │   ├── roc_curve.png
 │   └── variable_importance.png
+├── Rodriguez_Katherine_Diabetes_Code.Rmd
 ├── README.md
 └── .gitignore
 ```
