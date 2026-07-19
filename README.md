@@ -3,6 +3,14 @@ This project builds predictive models for diabetes status using the Pima Indians
 
 ---
 
+## Objectives
+- Build and evaluate a predictive model for diabetes classification
+- Identify the most influential predictors
+- Visualize model performance (ROC curve)
+- Provide a reproducible workflow using R
+
+---
+
 ## Project Structure
 ```text
 Diabetes-Predictive-Models/
@@ -32,7 +40,9 @@ Rodriguez_Katherine_Diabetes_Code.R
 - compute accuracy and ROC AUC
 - generate and save `roc_curve.png` and `variable_importance.png`
 4. The PNG files will appear in the project directory and are displayed below.
-  
+
+---
+
 ## Data Preparation
 - Load the dataset with 500 observations and 7 variables
 - Converted character variables to factors
@@ -40,6 +50,8 @@ Rodriguez_Katherine_Diabetes_Code.R
 - Recoded the outcome variable into:
   - "No diabetes"
   - "Diabetes
+
+---
  
 ## Modeling Workflow
 - Train/test split (75/25) stratified by outcome)
@@ -49,6 +61,8 @@ Rodriguez_Katherine_Diabetes_Code.R
   - Dummy encoding
   - Remove zero-variance predictors
   - Normalize numeric predictors
+
+ ---
  
 ## Models
 - **Logistic Regression**
@@ -57,11 +71,15 @@ Rodriguez_Katherine_Diabetes_Code.R
   - 500 trees
   - Permutation-based variable importance
 
+---
+
 ## Evaluation Metrics
 - Accuracy and ROC AUC calculated on the test set
 - Results:
   - Logistic Regression: Accuracy = 0.864, ROC AUC = 0.908
   - Random Forest: Accuracy = 0.896, ROC AUC = 0.934
+
+---
 
 ## Visualizations
 - ROC curve for random forest
@@ -75,5 +93,9 @@ Rodriguez_Katherine_Diabetes_Code.R
 ### Variable Importance (Random Forest)
 ![Variable Importance](variable_importance.png)
 
+---
+
 ## Summary
 Both models performed well, with the random forest achieving slightly higher accuracy and ROC AUC. Variable importance results align with clinical expectations, highlighting glucose as the most influential predictor of diabetes risk.  
+
+
