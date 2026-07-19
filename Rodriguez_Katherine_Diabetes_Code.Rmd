@@ -34,7 +34,7 @@ library(tidymodels)
 
 ## Load the data
 ```{r}
-diabetes <- read_csv("data/diabetes.csv")
+diabetes <- read_csv("diabetes.csv")
 ```
 
 ## Lets take a look at the data
@@ -43,6 +43,8 @@ head(diabetes)
 ```
 
 # Tidy the data
+
+#test change git change
 
 ## Replace values of zeros with NAs for BMI, glucose, and blood pressure recode outcome
 ```{r}
