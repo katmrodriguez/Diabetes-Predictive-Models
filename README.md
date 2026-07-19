@@ -73,10 +73,10 @@ Rodriguez_Katherine_Diabetes_Code.R
   - Age, BMI, and insulin are also contributing
 
 ### ROC Curve (Random Forest)
- ![ROC Curve](roc_curve.png)
+![ROC Curve](results/roc_curve.png)
 
 ### Variable Importance (Random Forest)
-![Variable Importance](variable_importance.png)
+![Variable Importance](results/variable_importance.png)
 
 ---
 ## Summary
