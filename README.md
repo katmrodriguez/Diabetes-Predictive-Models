@@ -4,6 +4,7 @@ This project builds predictive models for diabetes status using the Pima Indians
 ---
 
 ## Project Structure
+
 ├── data/
 │   └── diabetes.csv
 ├── R/
