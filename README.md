@@ -1,7 +1,8 @@
 # Diabetes Classification & Risk Factor Modeling in Tidymodels
 
-[![R Language](https://img.shields.io/badge/Language-R-blue.svg)](https://www.r-project.org/)
+[![Language](https://img.shields.io/badge/Language-R-blue.svg)](https://www.r-project.org/)
 [![Framework](https://img.shields.io/badge/Framework-Tidymodels-orange.svg)](https://www.tidymodels.org/)
+[![Status](https://img.shields.io/badge/Status-Completed-success.svg)](#)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 An end-to-end Machine Learning pipeline utilizing the **Pima Indians Diabetes Dataset** to classify diabetes status based on clinical physiological markers. This project demonstrates modern data preprocessing, missing data handling via median/mode imputation, model training (Logistic Regression vs. Random Forest), and variable importance evaluation using the `tidymodels` ecosystem in R.
