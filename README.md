@@ -1,104 +1,111 @@
-# Diabetes-Predictive-Models
-This project builds predictive models for diabetes status using the Pima Indians diabetes dataset. The workflow includes data cleaning (removing impossible values), outcome recoding, and model development using tidymodels. Logistic regression and random forest models are evaluated with accuracy and ROC AUC, and ROC curves are visualized to compare performance. Variable importance is analyzed to highlight which health metrics contribute most to diabetes prediction.
+# Diabetes Classification & Risk Factor Modeling in Tidymodels
+
+[![R Language](https://img.shields.io/badge/Language-R-blue.svg)](https://www.r-project.org/)
+[![Framework](https://img.shields.io/badge/Framework-Tidymodels-orange.svg)](https://www.tidymodels.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+An end-to-end Machine Learning pipeline utilizing the **Pima Indians Diabetes Dataset** to classify diabetes status based on clinical physiological markers. This project demonstrates modern data preprocessing, missing data handling via median/mode imputation, model training (Logistic Regression vs. Random Forest), and variable importance evaluation using the `tidymodels` ecosystem in R.
+
 ---
-## Objectives
-- Build and evaluate a predictive model for diabetes classification
-- Identify the most influential predictors
-- Visualize model performance (ROC curve)
-- Provide a reproducible workflow using R
+
+## Executive Summary
+
+* **Objective:** Build and compare interpretable and ensemble classification models to predict diabetes onset while identifying primary clinical risk factors.
+* **Best Model:** Both models achieved strong baseline performance on the test set, with **Logistic Regression** showing a slight edge in discrimination ($\text{ROC AUC} = 0.883$).
+* **Key Finding:** Across both parametric and tree-based importance metrics, **Plasma Glucose Concentration** emerged as the single most dominant predictor of diabetes risk, closely followed by **BMI** and **Age**[cite: 1, 2].
+
 ---
-## Project Structure
+
+## Performance Comparison
+
+Model metrics evaluated on an independent 25% test set ($N = 125$) stratified by outcome[cite: 1, 2]:
+
+| Model Architecture | Engine | Accuracy | ROC AUC | Primary Strength |
+| :--- | :--- | :---: | :---: | :--- |
+| **Logistic Regression** | `glm` | **0.832** | **0.883** | Highly interpretable, strong probability calibration[cite: 1, 2] |
+| **Random Forest** | `ranger` | **0.832** | 0.874 | Captures non-linear feature interactions[cite: 1, 2] |
+
+---
+
+## Visualizations & Diagnostics
+
+### 1. Model Discrimination (ROC Curve)
+The Receiver Operating Characteristic (ROC) curve evaluates sensitivity versus specificity across decision thresholds for the Random Forest model on unseen test data[cite: 1, 2].
+
+<p align="center">
+  <img src="results/roc_curve.png" width="70%" alt="Random Forest ROC Curve">
+</p>
+
+### 2. Clinical Feature Importance
+Permutation-based variable importance (`ranger`) highlights which clinical metrics drive the decision boundary[cite: 1, 2].
+
+<p align="center">
+  <img src="results/variable_importance.png" width="70%" alt="Variable Importance Plot">
+</p>
+
+> **Key Takeaway:** Glucose levels demonstrate more than double the predictive weight of the next highest physiological feature[cite: 1, 2]. This aligns directly with standard diagnostic criteria (e.g., Fasting Plasma Glucose / OGTT)[cite: 1, 2].
+
+---
+
+## Machine Learning Pipeline & Data Preprocessing
+
+1. **Data Cleaning & Physiology Corrections:**
+   * Replaced biologically impossible zero values in `bmi`, `glucose`, and `blood_pressure` with `NA`[cite: 1, 2].
+2. **Train/Test Stratification:**
+   * Split data 75/25 stratified by target variable (`outcome`) to preserve class balance across sets[cite: 1, 2].
+3. **Recipe Transformations (`recipes`):**
+   * `step_impute_median()` for numerical features[cite: 1, 2].
+   * `step_impute_mode()` for categorical features[cite: 1, 2].
+   * `step_dummy()` one-hot encoding for nominal predictors[cite: 1, 2].
+   * `step_zv()` removal of zero-variance columns[cite: 1, 2].
+   * `step_normalize()` feature scaling (z-score standardization) across all numeric predictors[cite: 1, 2].
+
+---
+
+## Repository Structure
+
 ```text
 Diabetes-Predictive-Models/
 ├── data/
-│   └── diabetes.csv
+│   └── diabetes.csv                         # Raw Pima Indians Dataset
 ├── results/
 │   ├── roc_curve.png
 │   └── variable_importance.png
 ├── .gitignore
 ├── Diabetes-Predictive-Models.Rproj
+├── LICENSE
 ├── README.md
-├── Rodriguez_Katherine_Diabetes_Code.Rmd
+├── Rodriguez_Katherine_Diabetes_Code.Rmd   # Primary R Markdown script
 └── Rodriguez_Katherine_Diabetes_Code.pdf
+
 ```
----
-## How to Run the Code
-1. Install required packages:
-   ```r
-   install.packages(c("tidyverse", "tidymodels"))
-   ```
-2. Open the R script:
-Rodriguez_Katherine_Diabetes_Code.R
-3. Run the script from top to bottom. It will:
-- load `diabetes.csv`
-- clean and preprocess the data
-- split into training/testing sets
-- fit logistic regression and random forest models
-- compute accuracy and ROC AUC
-- generate and save `roc_curve.png` and `variable_importance.png`
-4. The PNG files will appear in the project directory and are displayed below.
----
-## Data Preparation
-- Load the dataset with 500 observations and 7 variables
-- Converted character variables to factors
-- Replaced impossible values (0 for glucose, blood pressure, BMI) with NA
-- Recoded the outcome variable into:
-  - "No diabetes"
-  - "Diabetes"
----
-## Modeling Workflow
-- Train/test split (75/25) stratified by outcome)
-- Preprocessing recipe:
-  - Median imputation for numeric predictors
-  - Mode imputation for nominal predictors
-  - Dummy encoding
-  - Remove zero-variance predictors
-  - Normalize numeric predictors
----
-## Models
-- **Logistic Regression**
-  - Interpretable baseline model
-- **Random Forest**
-  - 500 trees
-  - Permutation-based variable importance
----
-## Evaluation Metrics
-- Accuracy and ROC AUC calculated on the test set
-- Results:
-  - Logistic Regression: Accuracy = 0.864, ROC AUC = 0.908
-  - Random Forest: Accuracy = 0.896, ROC AUC = 0.934
----
-## Visualizations
-- ROC curve for random forest
-- Variable importance plot showing:
-  - Glucose as the strongest predictor
-  - Age, BMI, and insulin are also contributing
+## How to Reproduce
 
-### ROC Curve (Random Forest)
-![ROC Curve](results/roc_curve.png)
+1. Clone the Repository
 
-### Variable Importance (Random Forest)
-![Variable Importance](results/variable_importance.png)
----
-## Summary
-Both models performed well, with the random forest achieving slightly higher accuracy and ROC AUC. Variable importance results align with clinical expectations, highlighting glucose as the most influential predictor of diabetes risk.  
----
-## Dependencies
-- tidyverse
-- tidymodels
-- ggplot2
-- dplyr
-- randomForest
-- pROC
----
-## Future Work
-- Add cross-validation
-- Perform hyperparameter tuning
-- Compare additional models (XGBoost, SVM, KNN)
-- Explore feature engineering
-- Evaluate fairness across demographic groups
-- Deploy via Shiny or an API
----
-## Acknowledgments
-Dataset: Pima Indians Diabetes dataset (UCI Machine Learning Repository)
+```{bash}
+git clone [https://github.com/your-username/Diabetes-Predictive-Models.git](https://github.com/your-username/Diabetes-Predictive-Models.git)
+cd Diabetes-Predictive-Models
+```
+2. Install Required R Packages
 
+```{r}
+install.packages(c("tidyverse", "tidymodels", "ranger"))
+
+```
+3. Run the Analysis
+
+Open Rodriguez_Katherine_Diabetes_Code.Rmd in RStudio and click Knit (or run the chunks sequentially). Outputs will automatically update in the results/ folder.
+---
+## Future Roadmap
+
+-  [ ] Implement $k$-fold cross-validation ($k=10$) for more robust variance estimation.
+-  [ ] Hyperparameter tuning via grid search for mtry and min_n in ranger.
+-  [ ] Integrate XGBoost / LightGBM workflows for gradient-boosted comparison.
+-  [ ] Explore threshold tuning (e.g., Youden's $J$ statistic) to optimize sensitivity in clinical risk settings.
+
+## Dependencies & Acknowledgments
+
+-  Built with: `tidyverse`, `tidymodels`, `ranger`
+
+-  Data Source: Pima Indians Diabetes Database (National Institute of Diabetes and Digestive and Kidney Diseases / UCI Machine Learning Repository).
