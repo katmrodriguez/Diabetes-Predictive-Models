@@ -12,7 +12,7 @@ An end-to-end Machine Learning pipeline utilizing the **Pima Indians Diabetes Da
 ## Executive Summary
 
 * **Objective:** Build and compare interpretable and ensemble classification models to predict diabetes onset while identifying primary clinical risk factors.
-* **Best Model:** Both models achieved strong baseline performance on the test set, with **Logistic Regression** showing a slight edge in discrimination ($\text{ROC AUC} = 0.883$).
+* **Best Model:** Both models achieved strong baseline performance on the test set, with **Random Forest** showing a slight edge in discrimination ($\text{ROC AUC} = 0.896$).
 * **Key Finding:** Across both parametric and tree-based importance metrics, **Plasma Glucose Concentration** emerged as the single most dominant predictor of diabetes risk, closely followed by **BMI** and **Age**[cite: 1, 2].
 
 ---
@@ -23,8 +23,8 @@ Model metrics evaluated on an independent 25% test set ($N = 125$) stratified by
 
 | Model Architecture | Engine | Accuracy | ROC AUC | Primary Strength |
 | :--- | :--- | :---: | :---: | :--- |
-| **Logistic Regression** | `glm` | **0.832** | **0.883** | Highly interpretable, strong probability calibration[cite: 1, 2] |
-| **Random Forest** | `ranger` | **0.832** | 0.874 | Captures non-linear feature interactions[cite: 1, 2] |
+| **Logistic Regression** | `glm` | **0.864** | **0.908** | Highly interpretable, strong probability calibration[cite: 1, 2] |
+| **Random Forest** | `ranger` | **0.896** | 0.934 | Captures non-linear feature interactions[cite: 1, 2] |
 
 ---
 

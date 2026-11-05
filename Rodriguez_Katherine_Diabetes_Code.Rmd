@@ -137,8 +137,6 @@ bind_rows(metrics_logit, metrics_rf)
 **Discussion**
 
 Both models perform well, with an accuracy of 0.864 and an ROC AUC of 0.908 for logistic regression, and the random forest model yielded an accuracy of 0.896, and an ROC AUC of 0.934.
-ROC AUC values are slightly different with logistic regression at 0.883,
-and random forest at 0.874
 
 # ROC Curve and Variable Importance for Random Forest
 ```{r}
@@ -164,7 +162,7 @@ imp <- tibble(
   arrange(desc(importance))
 ```
 
-# Visualizations
+# Visualizations 
 ```{r}
 varimp_plot <- ggplot(imp, aes(x = reorder(variable, importance), y = importance)) +
   geom_col(fill = "steelblue") +
@@ -187,7 +185,12 @@ ggsave("results/variable_importance.png", varimp_plot, width = 6, height = 4)
 **Discussion**
 
 As the metrics revealed, both the logistic regression and the random forest
-models performed well with an accuracy value of 0.864 and 0.896, while logistic regression
-had a slightly higher ROC AUC value. The variable importance chart reveals 
+models performed well. Nonetheless, the random forest outperformed logistic 
+regression on both metrics, slightly higher accuracy (0.896 vs. 0.864) and 
+a stronger ROC AUC (0.934 vs. 0.908) The variable importance chart reveals 
 glucose is the strongest predictor of diabetes, consistent with clinical 
 explanations of diabetes and what is likely to cause a higher diabetes risk.
+
+
+
+
